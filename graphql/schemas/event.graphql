@@ -1,0 +1,64 @@
+# ===============================================
+# EVENTS
+# ===============================================
+
+extend type Query {
+	event: EventQuery
+}
+
+extend type Mutation {
+	event: EventMutation
+}
+
+# -----------------------------------------------
+# QUERIES
+# -----------------------------------------------
+
+type EventQuery {
+	list(filter: String, orderBy: String): [EventMinimal]
+
+	single(id: Int!): Event
+}
+
+# -----------------------------------------------
+# MUTATIONS
+# -----------------------------------------------
+
+type EventMutation {
+	create(
+		title: String!
+		content: String!
+		date: Date!
+		location: String!
+		lat: Float!
+		lon: Float!
+		email: String
+	): EventResponse @rateLimit(limit: 1, duration: 60)
+
+	# update(id: Int!, title: String): DefaultResponse
+
+	# delete(id: Int!): DefaultResponse
+}
+
+# -----------------------------------------------
+# TYPES
+# -----------------------------------------------
+
+type EventResponse {
+	responseResult: ResponseStatus!
+}
+
+type EventMinimal {
+	id: Int!
+	title: String!
+	content: String!
+	location: String!
+	lat: Float!
+	lon: Float!
+	date: String!
+}
+
+type Event {
+	id: Int!
+	title: String!
+}
